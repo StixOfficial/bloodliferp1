@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ItzSuraj</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+    <script src="https://www.youtube.com/iframe_api"></script>    
+    <script src="https://s.ytimg.com/yts/jsbin/www-widgetapi-vflJJaNgk/www-widgetapi.js"></script>
+
+    <style>
+        :root {
+            --text-yellow: rgb(15, 169, 241);
+            --text-yellow-t: rgb(15, 169, 241);
+            --text-white: rgb(255, 255, 255);
+            --text-white-t: rgba(255, 255, 255, 0.5);
+            --text-green: rgb(111, 255, 171);
+            --text-red: rgb(255, 123, 109);
+            --text-blue: rgb(88, 188, 255);
+            --container-bg: rgba(37, 37, 37, 0.904);
+            --highlight-bg: rgba(58, 58, 58, 0.904);
+            --container-blue: rgb(54, 107, 143);
+            --container-blue-active: rgb(55, 137, 192);
+        }
+
+        html,body {
+            padding: 0;
+            margin: 0;
+            outline: none;
+            border: none;
+        }
+
+        body {
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            font-family: 'League Spartan', sans-serif;
+            color: white;
+            background: black;
+        }
+
+        #app {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            opacity: 1;
+            -webkit-transition: background-image 0.5s ease-in-out;
+            transition: background-image 0.5s ease-in-out;  
+        }
+
+        /**********/
+        /* HEADER */
+        /**********/
+
+        #header {
+            padding: 20px 50px 20px 50px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            display: grid;
+            grid-template-columns: 150px 1fr 150px;
+        }
+
+        #header .logo {
+            grid-column-start: 2;
+            grid-column-end: 3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #header .logo img {
+            width: 300px;
+            height: auto;
+        }
+
+        #header .buttons {
+            grid-column-start: 3;
+            grid-column-end: 4;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        #header .buttons div {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-white);
+            background-color: var(--container-bg);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        #header .buttons .fa-globe:hover {
+            color: var(--text-blue);
+        }
+
+        #header .buttons .fa-cart-shopping:hover {
+            color: var(--text-green);
+        }
+
+        #header .buttons .volume:hover {
+            color: var(--text-yellow);
+        }
+
+        /***********/
+        /* CONTENT */
+        /***********/
+
+        #content {
+            padding: 0px 50px;
+            flex-grow: 1;
+            flex-shrink: 1;
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 100%;
+            overflow: hidden;
+        }
+
+        .content_title {
+            font-size: 24px;
+            height: 18px;
+            font-weight: 700;
+            color: var(--text-yellow);
+            text-transform: uppercase;
+        }
+        
+        .content_text {
+            font-size: 18px;
+            height: 14px;
+            font-weight: 700;
+            color: var(--text-white-t);
+            text-transform: uppercase;
+        }
+
+        .content {
+            padding-right: 5px;
+            max-width: min(100%, 350px) !important;
+            overflow-x: hidden;
+            overflow-y: auto;
+            margin: 10px 0px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content_container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border-radius: 5px;
+            background-color: var(--container-bg);
+        }
+
+        .content_container.left {
+            overflow: hidden;
+        }
+
+        .content_container.right {
+            align-items: flex-end;
+        }
+
+        .content_container .changelog_item {
+            display: flex;
+            gap: 10px;
+        }
+
+        .content_container .changelog_item .icon {
+            display: flex;
+        }
+
+        .content_container .changelog_item .icon div {
+            color: var(--text-white-t);
+            font-size: 4px;
+            margin-top: 7px;
+        }
+
+        .content_container .changelog_item .text {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .content_container .changelog_item .text .title {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .content_container .changelog_item .text .title .type {
+            font-size: 14px;
+            padding: 4px 5px 2px 5px;
+            background-color: var(--highlight-bg);
+            border-radius: 5px;
+        }
+
+        .content_container .changelog_item .text .title .type.add {
+            color: var(--text-green);            
+        }
+
+        .content_container .changelog_item .text .title .type.edit {
+            color: var(--text-blue);            
+        }
+
+        .content_container .changelog_item .text .title .type.remove {
+            color: var(--text-red);            
+        }
+
+        .content_container .changelog_item .text .title .title {
+            padding-top: 3px;
+            font-size: 16px;
+            color: var(--text-white);
+        }
+
+        .content_container .changelog_item .text .description {
+            font-size: 14px;
+            color: var(--text-white-t);
+        }
+
+        #content .panel {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #content .panel.left {
+            align-items: flex-start;
+        }
+
+        #content .panel.left > div {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        #content .panel.right {
+            align-items: flex-end;
+        }
+
+        #content .panel.right > div,
+        #content .panel.right .content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        #changelog {
+            overflow: hidden;
+            flex-shrink: 1;
+        }
+
+        #changelog .content_container {            
+            gap: 15px;
+        }
+
+        #players {         
+            padding-right: 5px;   
+            overflow-y: hidden;
+        }
+
+        #players .content_container {
+            margin: 10px 0px;
+            max-width: 250px !important;
+            padding: 0px;
+        }
+
+        #players .content_container .image img {
+            width: 100%;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        #players .content_container .text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+            padding: 10px;
+        }
+
+        #players .content_container .text .name {
+            font-size: 18px;
+            color: var(--text-yellow);
+        }
+
+        #players .content_container .text .description {
+            text-align: right;
+            font-size: 14px;
+            color: var(--text-white-t);
+        }
+
+        #store {
+            flex-shrink: 0;
+            width: 100%;
+        }
+
+        #store .content {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+
+        #store .content .content_container {
+            flex-grow: 1;
+        }
+
+        #store .content .button {
+            height: 100%;
+            width: 50px !important;
+            margin-right: 5px;
+            flex-shrink: 0;
+            flex-grow: 0;
+            border-radius: 0px 5px 5px 0px;
+            background-color: var(--text-yellow-t);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #store .content .button:hover {
+            background-color: var(--text-yellow);
+        }
+
+        #store .content .content_container {
+            gap: 10px;
+            border-radius: 5px 0px 0px 5px;
+        }
+
+        #store .content .content_container .type {
+            display: flex;
+            gap: 5px;
+        }
+
+        #store .content .content_container .type .label {
+            font-size: 14px;
+            padding: 4px 5px 2px 5px;
+            background-color: var(--highlight-bg);
+            border-radius: 5px;
+            text-transform: uppercase;
+        }
+
+        #store .content .content_container .type .label.sale {
+            color: var(--text-green);
+        }
+
+        #store .content .content_container .type .label.limited {
+            color: var(--text-red);
+        }
+
+        #store .content .content_container .type .text {
+            padding-top: 3px;
+            font-size: 16px;
+            color: var(--text-white);
+        }
+
+        #store .content .content_container .title {
+            font-size: 18px;
+            color: var(--text-white);
+        }
+
+        #store .content .content_container .description {
+            font-size: 14px;
+            color: var(--text-white-t);
+        }
+
+        /**********/
+        /* FOOTER */
+        /**********/
+
+        #footer {   
+            padding: 20px 60px 30px 60px;     
+        }
+
+        #footer {
+            flex-grow: 0;
+            flex-shrink: 0;    
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        #footer .info {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 2px;
+        }
+
+        #footer .info .song {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #footer .info .song .icon {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-yellow);
+        }
+
+        #footer .info .song .text {
+            font-size: 14px;
+            color: var(--text-white-t);
+            padding-bottom: 1px;
+        }
+
+        #footer .info .song .text .primary {
+            font-size: 18px;
+            color: var(--text-white);
+        }
+
+        #footer .info .song .text .secondary {
+            font-size: 14px;
+            color: var(--text-white-t);
+        }
+
+        #footer .info .progress {
+            display: flex;
+            align-items: flex-end;
+            gap: 1px;
+        }
+
+        #footer .info .progress .primary {
+            font-size: 18px;
+            color: var(--text-yellow);
+        }
+
+        #footer .info .progress .secondary {
+            font-size: 14px;
+            color: var(--text-white-t);
+            margin-bottom: 1px;
+        }
+
+        #footer #progress {
+            width: 100%;
+            height: 10px;
+            background-color: var(--text-white-t);
+            border-radius: 5px;
+        }
+
+        #footer #progress .fill {
+            width: 0%;
+            height: 100%;
+            background-color: var(--text-yellow);
+            border-radius: 5px;
+        }
+
+        /*************/
+        /* SCROLLBAR */
+        /*************/
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-yellow);
+            border-radius: 5px;
+        }
+
+        #yt_player {
+        }
+
+        #browser {
+            position: absolute;
+            display: none;
+            top: 70px;
+            left: 70px;
+            width: calc(100% - 140px);
+            height: calc(100% - 140px);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #browser_frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+        }
+
+        #browser_close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: var(--container-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        #browser_close:hover {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="header">
+            <div class="logo">
+                <img src="./logo.png" alt="Logo">
+            </div>
+
+            <div class="buttons">
+                <div class="fa-solid fa-volume-high volume" onclick="ToggleMute()"></div>
+                <!-- <div class="fa-solid fa-globe" onclick="OpenSite()"></div> -->
+                <div class="fa-solid fa-cart-shopping" onclick="OpenStore()"></div>
+            </div>
+        </div>
+
+        <div id="content">
+            <div class="panel left">
+                <div id="changelog">
+                    <div class="content_title">Changelog</div>
+                    <div class="content_text version"></div>
+                    <div class="content_text date"></div>
+                    <div class="content">
+                        <div class="content_container"></div>
+                    </div>
+                </div>
+
+                <div id="store">
+                    <div class="content_title">Store</div>
+                    <div class="content">
+                        <div class="content_container"></div>
+                        <div class="button">></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel right">
+                <div id="players">
+                    <div class="content_title">Highlighted Players</div>
+
+                    <div class="content">                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="footer">
+            <div class="info">
+                <div class="song">
+                    <div class="icon fa-solid fa-music"></div>
+                    <div class="text">
+                        <div class="primary"></div>
+                        <div class="secondary"></div>
+                    </div>
+                </div>
+
+                <div class="progress">
+                    <div class="primary">0</div>
+                    <div class="secondary">%</div>
+                </div>
+            </div>
+
+            <div id="progress">
+                <div class="fill"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="yt_player"></div>
+    <div id="browser">
+        <iframe id="browser_frame"></iframe>
+        <div id="browser_close" class="fa-solid fa-xmark" onclick="CloseBrowser()"></div>
+    </div>
+
+    <script>
+        let audioPlayer
+        let ytPlayer
+        let Data = {}
+
+        let browserWindow = document.querySelector("#browser")
+        let browserFrame = document.querySelector("#browser_frame")
+
+        function CloseBrowser() {
+            browserWindow.style.display = "none"
+        }
+
+        function OpenSite() {
+            browserWindow.style.display = "block"
+
+            if (browserFrame.src !== "https://energy-rp.tebex.io/") {
+                browserFrame.src = "https://energy-rp.tebex.io/"
+                return
+            }
+        }
+
+
+
+        function OpenStore() {
+            browserWindow.style.display = "block"
+
+            if (browserFrame.src !== "https://energy-rp.tebex.io/") {
+                browserFrame.src = "https://energy-rp.tebex.io/"
+                return
+            }
+        }
+
+        function SetProgress(progress) {
+            progress = Math.min(100, Math.max(0, progress));
+            progress = Math.floor(progress);
+
+            const fill = document.querySelector("#progress .fill");
+            const text = document.querySelector("#footer .info .progress .primary");
+
+            fill.style.width = `${progress}%`;
+            text.innerHTML = `${progress}`;
+        }
+
+        function SetSong(song) {
+            const songText = document.querySelector("#footer .info .song .text .primary");
+            const artistText = document.querySelector("#footer .info .song .text .secondary");
+
+            songText.innerHTML = song.song;
+            artistText.innerHTML = song.artist;
+        }
+
+        function ToggleMute() {
+            const icon = document.querySelector("#header .buttons .volume");
+
+            if (icon.classList.contains("fa-volume-xmark")) {
+                icon.classList.remove("fa-volume-xmark");
+                icon.classList.add("fa-volume-high");
+                //ytPlayer.playVideo();
+                audioPlayer.play()
+            } else {
+                icon.classList.remove("fa-volume-high");
+                icon.classList.add("fa-volume-xmark");
+                //ytPlayer.pauseVideo();
+                audioPlayer.pause()
+            }
+        } 
+
+        function RefreshChangelog(data) {
+            const changelog = document.querySelector("#changelog > .content > .content_container");
+
+            changelog.innerHTML = ""
+
+            const version = document.querySelector("#changelog > .version");
+
+            version.innerHTML = "v" + data.version;
+
+            const date = document.querySelector("#changelog > .date");
+
+            date.innerHTML = data.date;
+
+            for (let i = 0; i < data.changes.length; i++) {
+                const change = data.changes[i];
+                const item = document.createElement("div");
+                
+                item.classList.add("changelog_item");
+
+                const icon = document.createElement("div");
+                icon.classList.add("icon");
+                icon.innerHTML = `<div class="fa-solid fa-circle"></div>`;
+                item.appendChild(icon);
+
+                const text = document.createElement("div");
+                text.classList.add("text");
+
+                const title = document.createElement("div");
+                title.classList.add("title");
+
+                const type = document.createElement("div");
+                type.classList.add("type");
+                type.classList.add(change.type);
+                type.innerHTML = change.type.toUpperCase();
+                title.appendChild(type);
+
+                const titleText = document.createElement("div");
+                titleText.classList.add("title");
+                titleText.innerHTML = change.title;
+                title.appendChild(titleText);
+
+                text.appendChild(title);
+
+                const description = document.createElement("div");
+                description.classList.add("description");
+                description.innerHTML = change.description;
+                text.appendChild(description);
+
+                item.appendChild(text);
+
+                changelog.appendChild(item);
+            }
+        }
+
+        function RefreshStore(data) {
+            const store = document.querySelector("#store > .content");
+
+            if (!data) {
+                store.innerHTML = ""
+                return
+            }
+
+            const button = document.createElement("div");
+            button.classList.add("button");
+
+            button.onclick = () => {
+                browserWindow.style.display = "block"
+
+                if (browserFrame.src !== data.url) {
+                    browserFrame.src = data.url
+                    return
+                }
+            }
+
+            button.innerHTML = `<div class="fa-solid fa-shopping-cart"></div>`;
+
+            store.innerHTML = `
+                <div class="content_container">
+                    <div class="title">${data.title}</div>
+                    <div class="type">
+                        <div class="label ${data.type}">${data.type}</div>
+                        <div class="text">${data.type_text}</div>
+                    </div>
+                    <div class="description">${data.description}</div>
+                </div>
+            `;
+
+            store.appendChild(button);
+        }
+
+        function RefreshPlayers(data) {
+            const players = document.querySelector("#players > .content");
+
+            players.innerHTML = "";
+
+            data.sort(() => Math.random() - 0.5);
+
+            for (let i = 0; i < data.length; i++) {
+                const player = data[i];
+                const item = document.createElement("div");
+
+                const category = document.createElement("div");
+                category.classList.add("content_text");
+                category.innerHTML = player.category;
+                players.appendChild(category);
+
+                item.classList.add("content_container");
+                item.classList.add("right");
+
+                const image = document.createElement("div");
+                image.classList.add("image");
+                image.innerHTML = `<img src="${player.image}" alt="Player Image">`;
+                item.appendChild(image);
+
+                const text = document.createElement("div");
+                text.classList.add("text");
+
+                const name = document.createElement("div");
+                name.classList.add("name");
+                name.innerHTML = player.name;
+                text.appendChild(name);
+
+                const description = document.createElement("div");
+                description.classList.add("description");
+                description.innerHTML = player.description;
+                text.appendChild(description);
+
+                item.appendChild(text);
+
+                players.appendChild(item);
+            }
+        }
+
+        let backgroundsRandomized = false
+        let backgroundIndex = 0
+
+        function RefreshBackground(data) {
+            if (!backgroundsRandomized) {
+                let firstImage = data.shift();
+                let secondImage = data.shift();
+                data.sort(() => Math.random() - 0.5);
+                data.unshift(secondImage);
+                data.unshift(firstImage);
+                backgroundsRandomized = true
+            }
+
+            const app = document.querySelector("#app");
+            const background = data[backgroundIndex];
+
+            app.style.backgroundImage = `url("${background}")`;
+
+            backgroundIndex++
+
+            if (backgroundIndex >= data.length) backgroundIndex = 0
+
+            setTimeout(() => {
+                RefreshBackground(data)
+            }, 5000)
+        }
+
+        function PlaySong(song) {
+            // // play youtube song
+            // let videoId
+
+            // if (song.includes("youtube.com")) {
+            //     videoId = song.split("v=")[1]
+            // } else {
+            //     videoId = song
+            // }
+
+            // if (ytPlayer) {
+            //     ytPlayer.loadVideoById(videoId)
+            // } else {
+            //     ytPlayer = new YT.Player('yt_player', {
+            //         height: '0',
+            //         width: '0',                    
+            //         origin: window.location.href,
+            //         playerVars: {
+            //             'autoplay': 1,
+            //             'loop': 0,
+            //             'mute': 1
+            //         },
+            //         videoId: videoId,
+            //         events: {
+            //             'onReady': onPlayerReady,
+            //             'onStateChange': onPlayerStateChange
+            //         }
+            //     });
+            // }
+            
+            audioPlayer = new Audio(`./on_1.mp3`);
+            audioPlayer.volume = 0.6;
+            audioPlayer.play();
+        }
+
+        function onPlayerReady(event) {
+            event.target.setVolume(50);
+            event.target.playVideo();
+            event.target.unMute();
+            
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.ENDED) {
+                RefreshSong(Data.songs)
+            }
+        }
+        
+        function RefreshSong(data) {
+            const song = data[Math.floor(Math.random() * data.length)];
+            SetSong(song);
+            PlaySong(song.url);            
+        }
+
+        function PopulateUI(data) {
+            RefreshChangelog(data.changelog);
+            RefreshStore(data.store);
+            RefreshPlayers(data.players);
+            RefreshBackground(data.backgrounds);
+            RefreshSong(data.songs);
+            document.getElementById("app").style.opacity = 1
+        }
+
+        let done = false
+        let progressFill = document.querySelector("#progress > .fill")
+        let fadeStarted = false
+
+        function onComplete() {
+            if (done) return
+
+            fetch(`https://nrg_loadscreen/done`)
+
+            // ytPlayer.stopVideo()
+            audioPlayer.pause()
+
+            setTimeout(onComplete, 500)
+        }
+        
+        function fadeOut() {
+            let duration = 10000
+            let start
+            
+            function step(timestamp) {
+                if (!start) start = timestamp
+
+                let opacity = 1 - ((timestamp - start) / duration)
+                document.body.style.opacity = opacity
+
+                if (opacity <= 0) {                   
+                    return onComplete()
+                }      
+                
+                window.requestAnimationFrame(step)
+            }
+
+            window.requestAnimationFrame(step);
+        }
+
+        window.addEventListener("message", (e) => {
+            switch (e.data.eventName) {
+                case "loadProgress":
+                    if (!e.data.loadFraction) return
+
+                    SetProgress(e.data.loadFraction * 100)
+                    
+                    if (e.data.loadFraction < 1 || fadeStarted) return;
+
+                    fadeStarted = true
+                    
+                    // fadeOut()
+
+                    break;
+                case "done":
+                    done = true
+                    break;
+                default:
+                    break;
+            }
+        })
+function loadData() {
+    fetch('https://raw.githubusercontent.com/UhBizzy/energy-rp-json/main/data.json')
+        .then(res => res.json())
+        .then(data => {
+            PopulateUI(data);
+        })
+        .catch(err => {
+            console.error('Error loading JSON:', err);
+        });
+}
+
+window.onload = () => {
+    loadData();
+};
+
+
+
+        // window.onload = () => {
+        // fetch('data.json')
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         PopulateUI(data);
+        //     })
+        //     .catch(err => {
+        //         console.error('Error loading JSON:', err);
+        //     });
+        // };      
+    </script>
+</body>
+</html>
